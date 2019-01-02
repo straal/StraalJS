@@ -12,19 +12,19 @@
 > A JavaScript library for Straal API.
 > A brilliant payment solution for disruptive businesses.
 
-* [Installation](#installation)
-* [Usage](#usage)
-* [`sendEncrypted` method](#sendencrypted-method)
-* [Support](#support)
-* [License](#license)
+- [Installation](#installation)
+- [Usage](#usage)
+- [`sendEncrypted` method](#sendencrypted-method)
+- [Support](#support)
+- [License](#license)
 
 ## Installation
 
 Add StraalJS to your project via NPM:
-```shell
-npm install git+ssh://git@gitlab.daftpay.com/daftpay/StraalJS#send-encrypted --save
-```
 
+```shell
+npm i --save https://github.com/straal/StraalJS/releases/latest
+```
 
 or directly:
 
