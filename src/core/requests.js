@@ -1,4 +1,4 @@
-/* global VERSION */
+/* global VERSION XDomainRequest*/
 
 import {
     objectHas,

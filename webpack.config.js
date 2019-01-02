@@ -1,7 +1,8 @@
 /*eslint-env node*/
-var path = require('path');
-var webpack = require('webpack');
-var licenseBanner = require('./licenseBanner');
+const path = require('path');
+const webpack = require('webpack');
+const licenseBanner = require('./licenseBanner');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -25,11 +26,12 @@ module.exports = {
             VERSION: JSON.stringify(process.env.npm_package_version)
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            include: /\.min\.js$/,
-            comments: false,
-            compress: {
-                warnings: false
+        new UglifyJSPlugin({
+            uglifyOptions: {
+                comments: false,
+                compress: {
+                    warnings: false
+                }
             }
         }),
         new webpack.BannerPlugin(licenseBanner)
