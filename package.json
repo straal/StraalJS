@@ -4,13 +4,12 @@
   "description": "A JavaScript library for Straal API",
   "author": "Straal",
   "license": "Apache-2.0",
-  "main": "lib/straaljs.min.js",
-  "module": "lib/straaljs.bundle.js",
+  "main": "dist/straaljs.min.js",
+  "module": "dist/straaljs.min.js",
   "scripts": {
     "build": "webpack --mode production",
-    "lint": "./node_modules/.bin/eslint src",
-    "test": "karma start --single-run",
-    "test-dev": "karma start"
+    "lint": "eslint src",
+    "test:unit": "karma start"
   },
   "devDependencies": {
     "chai": "^4.2.0",

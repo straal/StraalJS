@@ -10,7 +10,7 @@ module.exports = {
         'straaljs.min': ['src/index.js']
     },
     output: {
-        path: path.join(__dirname, 'lib'),
+        path: path.join(__dirname, 'dist'),
         filename: '[name].js',
         library: 'Straal',
         libraryTarget: 'umd',
@@ -26,14 +26,19 @@ module.exports = {
             VERSION: JSON.stringify(process.env.npm_package_version)
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        new UglifyJSPlugin({
-            uglifyOptions: {
-                comments: false,
-                compress: {
-                    warnings: false
-                }
-            }
-        }),
         new webpack.BannerPlugin(licenseBanner)
-    ]
+    ],
+    optimization: {
+        minimizer: [
+            new UglifyJSPlugin({
+                include: /\.min\.js$/,
+                uglifyOptions: {
+                    comments: false,
+                    compress: {
+                        warnings: false
+                    }
+                }
+            })
+        ]
+    }
 };
