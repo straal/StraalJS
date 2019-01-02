@@ -1,17 +1,10 @@
 /* global VERSION XDomainRequest*/
 
-import {
-    objectHas,
-    isString,
-    isObjectLike,
-    isNumber,
-    isFunction
-} from 'src/utils';
+import { objectHas, isString, isObjectLike, isFunction } from 'src/utils';
 import {
     UnsupportedBrowser,
     InvalidRequestMessage,
-    InvalidUrl,
-    RequestTimeout
+    InvalidUrl
 } from 'src/errors';
 
 import { parseCryptKey, encrypt } from './crypto';
@@ -38,8 +31,7 @@ export function postEncoded(url, jsonData, cryptKey, options) {
         fail: function(reqObj) {
             if (objectHas(options, 'fail') && isFunction(options.fail))
                 options.fail(reqObj);
-        },
-        timeout: options.timeout
+        }
     });
 }
 
@@ -52,7 +44,6 @@ export function post(url, data, options) {
     if (!isObjectLike(options.headers)) options.headers = {};
     options.headers['Content-Type'] = 'text/plain; charset=utf-8';
     options.headers['straal-straaljs-version'] = VERSION;
-    if (!isNumber(options.timeout)) options.timeout = 10000;
 
     var xhr = null,
         xdr = null,
@@ -81,29 +72,13 @@ export function post(url, data, options) {
         throw new UnsupportedBrowser();
     }
 
-    var timeoutId = setTimeout(function() {
-        if (xhr !== null) {
-            xhr.onreadystatechange = function() {};
-        } else {
-            xdr.onload = function() {};
-            xdr.error = function() {};
-        }
-        req.abort();
-
-        options.fail(new RequestTimeout(options.timeout / 1000), req);
-    }, options.timeout);
-
     req.send(data);
     return req;
 
     function successCallback() {
         if (xdr !== null) {
-            clearTimeout(timeoutId);
-
             options.success(xdr.responseText, req);
         } else if (xhr.readyState === 4) {
-            clearTimeout(timeoutId);
-
             if (xhr.status === 200) {
                 options.success(xhr.responseText, req);
             } else if (xhr.status === 0) {

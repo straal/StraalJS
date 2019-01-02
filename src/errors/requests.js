@@ -15,11 +15,3 @@ export function InvalidUrl() {
 }
 
 setErrorSubclass(InvalidUrl);
-
-export function RequestTimeout(timeoutSeconds) {
-    constructError(this, 'RequestTimeout', {
-        message: 'Request timeout after ' + timeoutSeconds + ' seconds.'
-    });
-}
-
-setErrorSubclass(RequestTimeout);
