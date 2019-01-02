@@ -23,19 +23,15 @@
 Add StraalJS to your project via NPM:
 
 ```shell
-npm i --save https://github.com/straal/StraalJS/releases/latest
-```
-
-or directly:
-
-```html
-<script src="path/to/straaljs.min.js">
+npm i --save https://github.com/straal/StraalJS/tree/1.0.0
 ```
 
 ## Usage
 
 ```js
-Straal.sendEncrypted(
+import { sendEncrypted } from "straaljs";
+
+sendEncrypted(
   "yourCryptKey",
   {
     name: "John Smith",
