@@ -2997,16 +2997,14 @@ function isFunction( data ) {
 // CONCATENATED MODULE: ./src/utils/buildOptions.js
 
 
-
-function buildOptions( opt ) {
-    if( !isObjectLike( opt )) return;
+function buildOptions(opt) {
+    if (!isObjectLike(opt)) return;
 
     var options = {};
 
-    if( opt.success ) options.success = opt.success;
-    if( opt.error ) options.error = opt.error;
-    if( opt.headers ) options.headers = opt.headers;
-    if( opt.timeout ) options.timeout = opt.timeout;
+    if (opt.success) options.success = opt.success;
+    if (opt.error) options.error = opt.error;
+    if (opt.headers) options.headers = opt.headers;
 
     return options;
 }
@@ -3097,14 +3095,6 @@ function InvalidUrl() {
 }
 
 setErrorSubclass(InvalidUrl);
-
-function RequestTimeout(timeoutSeconds) {
-    constructError(this, 'RequestTimeout', {
-        message: 'Request timeout after ' + timeoutSeconds + ' seconds.'
-    });
-}
-
-setErrorSubclass(RequestTimeout);
 
 // CONCATENATED MODULE: ./src/errors/index.js
 
@@ -3237,8 +3227,7 @@ function postEncoded(url, jsonData, cryptKey, options) {
         fail: function(reqObj) {
             if (objectHas(options, 'fail') && isFunction(options.fail))
                 options.fail(reqObj);
-        },
-        timeout: options.timeout
+        }
     });
 }
 
@@ -3251,7 +3240,6 @@ function requests_post(url, data, options) {
     if (!isObjectLike(options.headers)) options.headers = {};
     options.headers['Content-Type'] = 'text/plain; charset=utf-8';
     options.headers['straal-straaljs-version'] = "1.0.0";
-    if (!isNumber(options.timeout)) options.timeout = 10000;
 
     var xhr = null,
         xdr = null,
@@ -3280,29 +3268,13 @@ function requests_post(url, data, options) {
         throw new UnsupportedBrowser();
     }
 
-    var timeoutId = setTimeout(function() {
-        if (xhr !== null) {
-            xhr.onreadystatechange = function() {};
-        } else {
-            xdr.onload = function() {};
-            xdr.error = function() {};
-        }
-        req.abort();
-
-        options.fail(new RequestTimeout(options.timeout / 1000), req);
-    }, options.timeout);
-
     req.send(data);
     return req;
 
     function successCallback() {
         if (xdr !== null) {
-            clearTimeout(timeoutId);
-
             options.success(xdr.responseText, req);
         } else if (xhr.readyState === 4) {
-            clearTimeout(timeoutId);
-
             if (xhr.status === 200) {
                 options.success(xhr.responseText, req);
             } else if (xhr.status === 0) {
