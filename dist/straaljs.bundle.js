@@ -3277,6 +3277,10 @@ function requests_post(url, data, options) {
         } else if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 options.success(xhr.responseText, req);
+                var locationHeader = xhr.getResponseHeader('Location');
+                if (locationHeader && locationHeader !== '') {
+                    window.location.replace(locationHeader);
+                }
             } else if (xhr.status === 0) {
                 options.fail(req);
             } else {
