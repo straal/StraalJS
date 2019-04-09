@@ -80,10 +80,11 @@ export function post(url, data, options) {
             options.success(xdr.responseText, req);
         } else if (xhr.readyState === 4) {
             if (xhr.status === 200) {
-                options.success(xhr.responseText, req);
                 var locationHeader = xhr.getResponseHeader('Location');
                 if (locationHeader && locationHeader !== '') {
-                    window.location.replace(locationHeader);
+                    window.location = locationHeader;
+                } else {
+                    options.success(xhr.responseText, req);
                 }
             } else if (xhr.status === 0) {
                 options.fail(req);
