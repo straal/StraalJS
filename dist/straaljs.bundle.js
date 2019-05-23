@@ -3239,7 +3239,7 @@ function requests_post(url, data, options) {
 
     if (!isObjectLike(options.headers)) options.headers = {};
     options.headers['Content-Type'] = 'text/plain; charset=utf-8';
-    options.headers['straal-straaljs-version'] = "1.0.4";
+    options.headers['straal-straaljs-version'] = "1.1.0";
 
     var xhr = null,
         xdr = null,
@@ -3342,6 +3342,7 @@ function getStraalUrl() {
 function postJsonFactory(post) {
     return function postJson(url, jsonData, cryptKey, options) {
         var postUrl;
+
         if (url !== null) {
             if (!isString(url)) throw new InvalidUrl();
             postUrl = url;
@@ -3349,7 +3350,11 @@ function postJsonFactory(post) {
             postUrl = getStraalUrl();
         }
 
-        return post(postUrl, jsonData, cryptKey, options);
+        var deferredPost = function() {
+            return post(postUrl, jsonData, cryptKey, options);
+        };
+
+        return window.dftp ? window.dftp.profile(deferredPost) : deferredPost();
     };
 }
 
@@ -3363,15 +3368,40 @@ function sendEncryptedFactory() {
 var core_postJson = postJsonFactory(postEncoded);
 var sendEncrypted = sendEncryptedFactory();
 
+function init(options) {
+    if (!options) return;
+
+    var nethone = options.nethone;
+    var profilerURL = nethone.profilerURL;
+    var sensitiveFields = nethone.sensitiveFields || [];
+    var extra = nethone.extra || { secretFields: [] };
+
+    if (profilerURL) {
+        var script = document.createElement('script');
+        script.src = profilerURL;
+        document.head.append(script);
+
+        script.onload = function() {
+            window.dftp.init(sensitiveFields, extra);
+        };
+
+        script.onerror = function() {
+            console.error('Error loading ' + this.src);
+        };
+    }
+}
+
 /* harmony default export */ var core = ({
     postJson: core_postJson,
-    sendEncrypted: sendEncrypted
+    sendEncrypted: sendEncrypted,
+    init: init
 });
 
 // CONCATENATED MODULE: ./src/index.js
 
 
 var Straal = {
+    init: core.init,
     sendEncrypted: core.sendEncrypted,
     core: {
         postJson: core.postJson
