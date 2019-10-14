@@ -38,7 +38,7 @@ export function init(options) {
     var nethone = options.nethone;
     var profilerURL = nethone.profilerURL;
     var sensitiveFields = nethone.sensitiveFields || [];
-    var extra = nethone.extra || { secretFields: [] };
+    // var extra = nethone.extra || { secretFields: [] };
 
     if (profilerURL) {
         var script = document.createElement('script');
@@ -46,7 +46,7 @@ export function init(options) {
         document.head.append(script);
 
         script.onload = function() {
-            window.dftp.init(sensitiveFields, extra);
+            window.dftp.init(sensitiveFields); //, extra);
         };
 
         script.onerror = function() {
