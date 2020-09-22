@@ -23,7 +23,7 @@
 Add StraalJS to your project via NPM:
 
 ```shell
-npm i --save https://github.com/straal/StraalJS.git#1.0.3
+npm i --save https://github.com/straal/StraalJS.git#1.0.4
 ```
 
 ## Usage
