@@ -38,15 +38,16 @@ sendEncrypted(
     number: "4444444444444448",
     cvv: "123",
     expiry_month: 11,
-    expiry_year: 2020
+    expiry_year: 2020,
+    threeds_v2: getBrowserParams(), // optional for 3DSV2
   },
   {
-    success: function(xhr) {
+    success: function (xhr) {
       console.log(xhr);
     },
-    fail: function(xhr) {
+    fail: function (xhr) {
       console.log(xhr);
-    }
+    },
   }
 );
 ```
