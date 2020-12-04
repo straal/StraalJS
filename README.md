@@ -29,7 +29,7 @@ npm i --save https://github.com/straal/StraalJS.git#1.0.4
 ## Usage
 
 ```js
-import { sendEncrypted } from "straaljs";
+import { sendEncrypted, getBrowserParams } from "straaljs";
 
 sendEncrypted(
   "yourCryptKey",
