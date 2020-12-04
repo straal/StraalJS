@@ -2,7 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const licenseBanner = require('./licenseBanner');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -29,16 +29,6 @@ module.exports = {
         new webpack.BannerPlugin(licenseBanner)
     ],
     optimization: {
-        minimizer: [
-            new UglifyJSPlugin({
-                include: /\.min\.js$/,
-                uglifyOptions: {
-                    comments: false,
-                    compress: {
-                        warnings: false
-                    }
-                }
-            })
-        ]
+        minimizer: [new TerserPlugin()],
     }
 };
