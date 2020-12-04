@@ -24,10 +24,26 @@ export function sendEncryptedFactory() {
     };
 }
 
+export function getBrowserParamsFactory() {
+    return function getBrowserParams(){
+        return {
+            language: navigator.language,
+            javascript_enabled: true,
+            java_enabled: window.navigator.javaEnabled(),
+            color_depth: window.screen.colorDepth, 
+            screen_height: window.screen.height,
+            screen_width: window.screen.width,
+            timezone: new Date().getTimezoneOffset()
+        }
+    }
+}
+
 export var postJson = postJsonFactory(postEncoded);
 export var sendEncrypted = sendEncryptedFactory();
+export var getBrowserParams = getBrowserParamsFactory();
 
 export default {
     postJson: postJson,
-    sendEncrypted: sendEncrypted
+    sendEncrypted: sendEncrypted,
+    getBrowserParams: getBrowserParams
 };
