@@ -39,7 +39,7 @@ sendEncrypted(
     cvv: "123",
     expiry_month: 11,
     expiry_year: 2020,
-    threeds_v2: getBrowserParams(), // optional for 3DSV2
+    browser: getBrowserParams(), // optional for 3DSV2
   },
   {
     success: function (xhr) {
